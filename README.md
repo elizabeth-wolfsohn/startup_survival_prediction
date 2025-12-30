@@ -91,3 +91,47 @@ For open source projects, say how it is licensed.
 
 ## Project status
 If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+
+
+## Dataset bruts
+
+stockunitelegale : 
+nombre lignes : 29 045 566
+Proportion de survivants : 0.5829311778603316
+
+
+
+## Préparation des données
+
+- Suppression de toutes les colonnes non explicatives telles que 'prenom1UniteLegale', 'denominationUsuelle1UniteLegale'
+- Suppression des colonnes explicatives qui ont une trop grande proportion de valeurs null (exemple : "trancheEffectifsUniteLegale" ) 
+
+
+https://www.insee.fr/fr/information/2028129
+https://www.cartegie.com/wp-content/uploads/2025/06/liste-codes-ape-naf-2025-tableau-correspondance-insee-2027_cartegie.pdf
+
+
+
+21 – Fabrication de produits pharmaceutiques de base et de préparations pharmaceutiques
+
+22 – Fabrication de produits en caoutchouc et en plastique
+
+26 – Fabrication de produits électroniques et optiques
+
+28 – Fabrication de machines et équipements n.c.a.
+
+35 – Production et distribution d’électricité, gaz, vapeur et air conditionné
+
+62 – Programmation, conseil et autres activités informatiques
+
+63 – Services d’information (portails web, données en ligne, etc.)
+
+70 – Activités des sièges sociaux ; conseil de gestion
+
+71 – Activités spécialisées, scientifiques et techniques (ex : R&D)
+
+72 – Activités de sciences physiques et naturelles
+
+73 – Publicité et études de marché
+
+74 – Activités spécialisées, scientifiques et techniques (services aux entreprises)

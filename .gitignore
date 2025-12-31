@@ -1,0 +1,9 @@
+# Environnements virtuels
+venvsda/
+
+# Caches Python
+__pycache__/
+*.pyc
+
+
+datasets_originaux/

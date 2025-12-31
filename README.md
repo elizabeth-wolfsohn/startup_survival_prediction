@@ -110,6 +110,7 @@ Proportion de survivants : 0.5829311778603316
 https://www.insee.fr/fr/information/2028129
 https://www.cartegie.com/wp-content/uploads/2025/06/liste-codes-ape-naf-2025-tableau-correspondance-insee-2027_cartegie.pdf
 
+https://www.mathplace.fr/calcul-de-taux-de-croissance/
 
 
 21 – Fabrication de produits pharmaceutiques de base et de préparations pharmaceutiques

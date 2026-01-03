@@ -103,36 +103,82 @@ Proportion de survivants : 0.5829311778603316
 
 ## Préparation des données
 
+### StockUniteLegale : 
+
 - Suppression de toutes les colonnes non explicatives telles que 'prenom1UniteLegale', 'denominationUsuelle1UniteLegale'
-- Suppression des colonnes explicatives qui ont une trop grande proportion de valeurs null (exemple : "trancheEffectifsUniteLegale" ) 
+- Suppression de toutes les colonnes ayant un pourcentage de valeurs null à 100% (ex: caractereEmployeuUniteLegale)
+- Sélection des catégories juridiques et des activités principales typiques d'une startup 
+    Catégories juridiques retenues : 
+        5710 — SAS (Société par actions simplifiée)
+
+   Activités principales retenues : 
+        Numérique / Logiciel
+        "58.21Z",  # Édition de jeux électroniques
+        "58.29A",  # Édition de logiciels système et réseau
+        "58.29B",  # Édition de logiciels outils de développement et de langages
+        "62.01Z",  # Programmation informatique
+        "62.02A",  # Conseil en systèmes et logiciels informatiques
+        "62.02B",  # Tierce maintenance de systèmes et d’applications informatiques
+        "62.09Z",  # Autres activités informatiques
+
+        Données / plateformes / cloud
+        "63.11Z",  # Traitement de données, hébergement et activités connexes
+        "63.12Z",  # Portails Internet
+        "63.99Z",  # Autres services d’information n.c.a.
+
+        R&D / Deeptech
+        "72.11Z",  # R&D en biotechnologie
+        "72.19Z",  # R&D en autres sciences physiques et naturelles
+
+        Industrie technologique / hardware
+        "26.11Z",  # Fabrication de composants électroniques
+        "26.20Z",  # Fabrication d’ordinateurs et d’équipements périphériques
+        "26.51A",  # Fabrication d'équipements d'aide à la navigation
+        "26.51B"   # Fabrication	d'instrumentation	scientifique	et	technique
+
+        Conseil technologique à forte intensité innovation
+        "70.22Z",  # Conseil pour les affaires et autres conseils de gestion (tech / SaaS)
 
 
+
+- Encodage des variables catégorielles avec substitution des valeurs manquantes au passage
+
+
+### StockUniteEtablissement
+
+- Filtrage des sirens de sorte à ce que StockUniteEtablissement ne contienne que les siren de StockUniteLegale
+- Comptage du nombre d'établissements pour chaque entreprise
+- Calcul de la proportion d'établissements ouverts pour chaque entreprise
+
+### Ratios INPI BCE
+
+- Au départ, un dataset contenant les détails des données financières des entreprises a été utilisé pour la préparation des données.
+Mais du fait du nombre de variables financières et de la proportion d'entre elles qui contiennent des variables manquantes, nous avons remplacé
+ce dataset par un dataset de bilan financier sur le même site internet que l'ancien dataset et qui est beaucoup synthétique au niveau des données financières. En particulier, ces données ont été calculées par les auteurs à partir du dataset détaillé que nous avons exploité initialement. 
+
+- Filtrage des sirens de sorte à ce que le dataset sur les bilans financiers ne contiennent que les sirens du dataset StockUniteLegale
+
+- Nous avons découvert que seul 4% des 280 000 entreprises  (donc 36388 entreprises environ) a déclaré au moins un bilan financier dans le dataset. Ainsi, nous avons fait deux versions du dataset afin de ne pas biaiser les résultats si nous n'avions étudié que les entreprises ayant déclaré au moins un bilan 
+(dans la base de données filtrée de StockUniteLegale, le taux de survie est 74% tandis que parmi ces entreprises qui ont déclaré au moins un bilan financier, ce taux arrive à 82%). 
+La première version consiste à garder toutes les entreprises de la base de données filtrée de StockUniteLegale (ayant déclaré un bilan ou non) et à ne pas étudier le détail des bilans financier et à ajouter dans le dataset une variable qui indique si une certaine entreprise à déclaré au moins un bilan financier dans les 3 premières années de vie de l'entreprise (année de creéation incluse). 
+
+La deuxième version consiste à n'étudier que les entreprises ayant déclaré au moins un bilan financier dans un certain intervalle d'années situé au début de la vie de l'entreprise. Afin d'avoir un taux de survie le plus similaire à celui des entreprises de la base de données filtrée de StockUniteLegale, nous choisi l'intervalle des 3 premières annnées de l'entreprise (dont l'année de création de celle-ci). Ainsi nous obtenons un taux de survie, avec ces critères de 76%. 
+    - Dans cette version, nous avons retiré toutes les lignes qui concernent les bilans financiers postérieurs à cette intervalle
+    - nous avons, pour chaque variable calculé sa moyenne des 3 valeurs, son tcam (taux de croissance annuel moyen) et son écart-type.
+    - Pour les valeurs manquantes, nous avons décidé que, si une entreprise à 1 ou deux valeurs manquantes sur 3, alors nous recopions la même valeur combler les valeurs manquantes, ce qui permet de prendre en compte la valeur déclarée dans la moyenne et d'assurer un taux de croissance nul. 
+    - Si les trois valeurs sont manquantes, alors les valeurs associées au tcam, moyenne et écart type seront manquantes et après le processus de calculs pour toutes les lignes, nous substituons ces valeurs manquantes par la médiane de chaque colonne. 
+
+
+A l'issue de cela, selon les deux versions en termes de nombre de lignes et des variables, nous fusionnons 3 datasets finaux. 
+
+
+## Sources : 
+
+Nomenclature catégories juridiques : 
 https://www.insee.fr/fr/information/2028129
-https://www.cartegie.com/wp-content/uploads/2025/06/liste-codes-ape-naf-2025-tableau-correspondance-insee-2027_cartegie.pdf
 
+Nomenclature activités principales : 
+https://www.insee.fr/fr/information/2120875
+
+Taux de croissance :
 https://www.mathplace.fr/calcul-de-taux-de-croissance/
-
-
-21 – Fabrication de produits pharmaceutiques de base et de préparations pharmaceutiques
-
-22 – Fabrication de produits en caoutchouc et en plastique
-
-26 – Fabrication de produits électroniques et optiques
-
-28 – Fabrication de machines et équipements n.c.a.
-
-35 – Production et distribution d’électricité, gaz, vapeur et air conditionné
-
-62 – Programmation, conseil et autres activités informatiques
-
-63 – Services d’information (portails web, données en ligne, etc.)
-
-70 – Activités des sièges sociaux ; conseil de gestion
-
-71 – Activités spécialisées, scientifiques et techniques (ex : R&D)
-
-72 – Activités de sciences physiques et naturelles
-
-73 – Publicité et études de marché
-
-74 – Activités spécialisées, scientifiques et techniques (services aux entreprises)

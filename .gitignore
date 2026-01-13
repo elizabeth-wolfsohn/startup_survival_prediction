@@ -7,3 +7,7 @@ __pycache__/
 
 
 datasets_originaux/
+StockUniteLegale_utf8.parquet
+
+StockEtablissement_utf8.parquet
+ratios_inpi_bce.parquet
